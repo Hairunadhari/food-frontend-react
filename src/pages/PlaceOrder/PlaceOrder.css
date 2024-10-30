@@ -34,3 +34,7 @@
 .cart-total button{
     margin-top: 30px;
 }
+.place-order select{
+    width: 100%;
+    padding: 3px;
+}
