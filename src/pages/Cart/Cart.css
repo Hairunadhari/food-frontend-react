@@ -22,6 +22,11 @@
 }
 .cross{
     cursor: pointer;
+    border: 1px solid red;
+    width: max-content;
+    border-radius: 5px;
+    padding: 5px 10px 5px 10px;
+    color: red;
 }
 .cart-bottom{
     margin-top: 80px;

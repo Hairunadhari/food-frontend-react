@@ -1,18 +1,63 @@
 import { createContext, useEffect, useState } from "react";
-import {food_list} from '../assets/assets';
-import Api from '../api/index'
+import Api from '../api/index';
 export const StoreContext = createContext(null);
+import Cookies from 'js-cookie';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const StoreContextProvider = (props) => {
+    const [food_list, setFoodList] = useState([]);
+     // Fungsi untuk mendapatkan data dari API
+     const fetchFoodList = async () => {
+        try {
+            const response = await Api.get('/produk'); // Asumsi Api sudah dikonfigurasi
+            setFoodList(response.data.data.items); // Sesuaikan dengan struktur respons API Anda
+        } catch (error) {
+            console.error('Error fetching food list:', error);
+        }
+    };
 
+    const [category, setCategory] = useState([]);
+     // Fungsi untuk mendapatkan data dari API
+     const fetchCategory = async () => {
+        try {
+            const response = await Api.get('/kategori'); // Asumsi Api sudah dikonfigurasi
+            setCategory(response.data.data.items); // Sesuaikan dengan struktur respons API Anda
+        } catch (error) {
+            console.error('Error fetching food list:', error);
+        }
+    };
+
+    const [auth, setAuth] = useState([])
+    const storeAuth = () => {
+        const getUserName = Cookies.get('userName');
+        const getToken = Cookies.get('authToken');
+        if (getUserName && getToken) {
+            
+            setAuth([getUserName, getToken])
+        }
+
+    }
+
+    const [alert, setAlert] = useState([])
+    const notify = ()=>{
+        // setAlert([text,code])
+        toast(alert[0]);
+    }
     const [cartItems, setCartItems] = useState({})
     const addToCart = (itemId) => {
-        if (!cartItems[itemId]) {
-            setCartItems((prev)=>({...prev,[itemId]:1}))
+        if (auth.length === 0) {
+            setAlert(['Silahkan Login Dulu'])
         }else{
-            setCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}))
+
+            if (!cartItems[itemId]) {
+                setCartItems((prev)=>({...prev,[itemId]:1}))
+            }else{
+                setCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}))
+            }
         }
     }
+    // console.log(cartItems)
     
     const removeFromCart = (itemId) => {
         setCartItems((prev)=>({...prev,[itemId]:prev[itemId]-1}))
@@ -24,40 +69,45 @@ const StoreContextProvider = (props) => {
         {
             if (cartItems[item] > 0) {
                 
-                let itemInfo = food_list.find((product)=>product.id === item);
+                let itemInfo = food_list.find((product)=>product.id);
+                console.log(food_list.find((product)=>product.id));
                 totalAmount += itemInfo.price*cartItems[item];
             }
         }
         return totalAmount;
     }
 
-      // State untuk data provinsi
-    const [province, setProvince] = useState([]);
-
-    // Fetch data provinsi
-    const fetchDataProvince = () => {
-        Api.get('/api/province')
-            .then((response) => {
-                setProvince(response.data.rajaongkir.results);
-            })
-            .catch((error) => {
-                console.error("Error fetching provinces:", error);
-            });
-    };
-
-    // Mengambil data provinsi saat komponen dimuat pertama kali
+    
+    
+   
+    
     useEffect(() => {
-        fetchDataProvince();
+        fetchFoodList();
+        fetchCategory();
+        storeAuth()
+        
     }, []);
 
+    useEffect(() => {
+        notify(); // Panggil fungsi notify saat `alert` berubah
+        console.log(alert)
+    }, [alert]);
+
+    
+    
     const contextValue = {
         food_list,
+        category,
         cartItems,
         setCartItems,
         addToCart,
         removeFromCart,
         getTotalCartAmount,
-        province
+        auth,
+        alert,
+        setAuth,
+        setAlert
+        // province
     }
     return(
         <StoreContext.Provider value={contextValue}>

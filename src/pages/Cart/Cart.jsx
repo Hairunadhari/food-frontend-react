@@ -13,7 +13,6 @@ const Cart = () => {
           <p>Items</p>
           <p>Title</p>
           <p>Price</p>
-          <p>Price</p>
           <p>Quantity</p>
           <p>Total</p>
           <p>Remove</p>
@@ -27,7 +26,7 @@ const Cart = () => {
               <div>
 
               <div className="cart-items-title cart-items-item" >
-                <img src={item.image} alt="" />
+                <img src={`http://127.0.0.1:8000/storage/image/${item.image}`} alt="" />
                 <p>{item.name}</p>
                 <p>${item.price}</p>
                 <p>{cartItems[item.id]}</p>

@@ -39,14 +39,19 @@
     border: 1px solid #c9c9c9;
     padding: 10px;
     border-radius: 4px;
+    /* margin-bottom: 10px; */
 }
 .login-popup-container button{
     border: none;
     padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     border-radius: 4px;
     color: white;
     background-color: tomato;
     font-size: 15px;
+    width: 100%;
+
     cursor: pointer;
 }
 .login-popup-condition{
@@ -57,9 +62,37 @@
 }
 .login-popup-condition input{
     margin-top: 5px;
+    /* margin-bottom: 5px; */
 }
 .login-popup p span{
     color: tomato;
     font-weight: 500;
     cursor: pointer;
+}
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #FFF;
+    border-bottom-color: #FF3D00;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    margin: auto;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 
+.alert{
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 5px;
+
 }

@@ -56,7 +56,7 @@ const AllMenu = () => {
       <div className="food-display-list">
         {filteredFoodList.map((item,index)=>{
           
-          return <FoodItem key={index} id={item.id} name={item.name} description={item.description} price={item.price} image={item.image} />
+          return <FoodItem key={index} id={item.id} name={item.name} description={item.description} price={item.price}  image={`http://127.0.0.1:8000/storage/image/${item.image}`}/>
         })}
       </div>
  </div>
